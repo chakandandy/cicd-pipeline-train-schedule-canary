@@ -1,7 +1,6 @@
 pipeline {
     agent any
     environment {
-        //be sure to replace "chakanhero" with your own Docker Hub username
         DOCKER_IMAGE_NAME = "chakanhero/train-schedule"
     }
     stages {
@@ -50,10 +49,11 @@ pipeline {
             kubernetesDeploy(
                 kubeconfigId: 'kubeconfig',
                 configs: 'train-schdeule-kube-canary.yml',
-                enableConfigSubstitution: true)
+                enableConfigSubstitution: true
+            )
+        
         }
-    }
-    stage('DeployToProduction') {
+        stage('DeployToProduction') {
             when {
                 branch 'master'
             }
@@ -69,6 +69,6 @@ pipeline {
                     enableConfigSubstitution: true
                 )
             }
+        }
     }
 }
-                
